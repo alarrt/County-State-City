@@ -599,12 +599,14 @@ class CSCPickerState extends State<CSCPicker> {
   @override
   void initState() {
     super.initState();
+    getCountries();
     setDefaults();
 
     if (widget.countryFilter != null) {
+      ///Filter countries.
       _countryFilter = widget.countryFilter!;
     }
-    getCountries();
+    // getCountries();
     _selectedCity = widget.cityDropdownLabel;
     _selectedState = widget.stateDropdownLabel;
   }
@@ -627,7 +629,7 @@ class CSCPickerState extends State<CSCPicker> {
 
   void _setDefaultCountry() {
     if (widget.defaultCountry != null) {
-      print(_country[Countries[widget.defaultCountry]!]);
+      debugPrint(_country[Countries[widget.defaultCountry]!]);
       _onSelectedCountry(_country[Countries[widget.defaultCountry]!]!);
     }
   }
@@ -643,6 +645,7 @@ class CSCPickerState extends State<CSCPicker> {
   ///get countries from json response
   Future<List<String?>> getCountries() async {
     _country.clear();
+    _countriesList.setData(await getResponse());
     var countries = _countriesList.data;
     if (_countryFilter.isNotEmpty) {
       _countryFilter.forEach((element) {
